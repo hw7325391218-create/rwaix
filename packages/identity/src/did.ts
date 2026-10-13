@@ -47,6 +47,16 @@ export function base58btcDecode(text: string): Uint8Array {
   return out;
 }
 
+/** did:key for a 32-byte Ed25519 public key (multicodec ed25519-pub, 0xed01). */
+export function didKeyEd25519(publicKey: Uint8Array): string {
+  if (publicKey.length !== 32) throw new ProtocolError("SCHEMA_INVALID", "did:key expects a 32-byte Ed25519 key");
+  const prefixed = new Uint8Array(2 + publicKey.length);
+  prefixed[0] = 0xed;
+  prefixed[1] = 0x01;
+  prefixed.set(publicKey, 2);
+  return `did:key:z${base58btc(prefixed)}`;
+}
+
 /** did:key for a compressed P-256 public key (multicodec p256-pub, 0x1200). */
 export function didKey(publicKey: Uint8Array): string {
   if (publicKey.length !== 33) throw new ProtocolError("SCHEMA_INVALID", "did:key expects a compressed P-256 key");

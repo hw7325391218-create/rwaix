@@ -18,7 +18,8 @@
     "vectors": "tsx scripts/export-vectors.ts",
     "test:python": "python3 verifiers/python/test_verifier.py",
     "freeze": "tsx scripts/freeze-schemas.ts",
-    "test:contracts": "forge test --root contracts"
+    "test:contracts": "forge test --root contracts",
+    "vc-interop": "tsx packages/vc-api/src/run-suites.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild"]

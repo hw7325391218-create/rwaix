@@ -37,6 +37,20 @@ test("paper UI serves the NFT trade first and keeps static files intact", async 
     assert.match(source, /\/api\/scenarios\//);
     assert.match(source, /run\("nft"\)/);
     assert.doesNotMatch(source, /^\{/);
+    const issued = await fetch(`${base}/vc-api/credentials/issue`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        credential: {
+          "@context": ["https://www.w3.org/ns/credentials/v2"],
+          type: ["VerifiableCredential"],
+          credentialSubject: { id: "did:example:subject" },
+        },
+      }),
+    });
+    assert.equal(issued.status, 200);
+    const issuedBody = await issued.json() as { verifiableCredential?: { proof?: { cryptosuite?: string } } };
+    assert.equal(issuedBody.verifiableCredential?.proof?.cryptosuite, "eddsa-rdfc-2022");
     const catalog = await fetch(`${base}/api/scenarios`);
     const body = await catalog.json() as { scenarios: string[] };
     assert.deepEqual(body.scenarios, ["nft", "identity", "content", "data", "supply", "agent", "compute", "device"]);

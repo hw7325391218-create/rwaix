@@ -1,4 +1,4 @@
-export { base58btc, didDocument, didKey, didKeyFromSigner, didWeb, publicKeyFromDidKey } from "./did.js";
+export { base58btc, didDocument, didKey, didKeyEd25519, didKeyFromSigner, didWeb, publicKeyFromDidKey } from "./did.js";
 export type { DidDocument } from "./did.js";
 export { AccountRecovery } from "./recovery.js";
 export type { RecoveryPolicy } from "./recovery.js";

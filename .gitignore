@@ -12,5 +12,6 @@ contracts/lib/
 packages/conformance/out/
 packages/acceptance/out/
 data/
+reports/
 __pycache__/
 *.pyc
