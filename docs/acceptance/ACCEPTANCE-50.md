@@ -150,8 +150,14 @@ This suite does not reuse, replay, or claim the archived local Node/WebCrypto re
 
 - Clause: section 5.3 and section 22. At least two independent implementation teams exchange the same trades.
 - Preconditions: a second implementation team and an exchange of the three packs.
-- Inputs: none exist in this repository.
-- Pass: not applicable. The item is `NOT_EVALUATED` because one process calling itself is not that exchange. It is not marked passed.
+- Inputs: none exist in this repository. The W3C VC-API in `@rwaix/vc-api` is one implementation talking to itself.
+- Pass: not applicable. The item stays `NOT_EVALUATED`. One process calling itself is not that exchange, and a passing W3C suite run is not two teams exchanging NFT, licence, and qualification packs.
+
+Path toward the exchange, in order:
+
+1. This repository's issuer and verifier pass the W3C VC Data Model 2.0 suite and the Data Integrity `eddsa-rdfc-2022` and `ecdsa-rdfc-2019` suites in CI. That shows one implementation can issue and verify VC Data Model 2.0 credentials with `did:key`. It is not an exchange with another team.
+2. `docs/interop/rwaix.json` is an implementation manifest in the `w3c/vc-test-suite-implementations` shape, with placeholder endpoints. It is kept in this repository and is not submitted to W3C or sent to other implementers.
+3. The remaining step is a second independent team exchanging the NFT, licence, and qualification packs with this implementation. Until that exchange happens, A21 stays `NOT_EVALUATED`.
 
 ## A22 — Fee and rights mismatch is rejected
 

@@ -9,6 +9,7 @@ import { creationCode, redactRpc, resolveNetwork, verifyDeployment, type Network
 import { openDatabase, saveDocument, type Sql } from "@rwaix/persistence";
 import { keyFromSeed } from "@rwaix/protocol";
 import { PROFILE_IDS, runCrossScenario, runProfile } from "@rwaix/scenarios";
+import { handleVcApi } from "@rwaix/vc-api";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "../web");
 const issuer = keyFromSeed("server-issuer");
@@ -140,6 +141,10 @@ export async function start(options?: { host?: string; port?: number; databaseUr
       }
       if (url.pathname === "/metrics") {
         send(response, 200, `rwaix_up 1\nrwaix_journal_entries ${journal}\nrwaix_paper_test_only ${network.mainnet ? 0 : 1}\nrwaix_chain_id ${network.chainId}\n`, "text/plain; charset=utf-8", mode);
+        return;
+      }
+      if (url.pathname === "/vc-api" || url.pathname.startsWith("/vc-api/")) {
+        await handleVcApi(request, response);
         return;
       }
       if (url.pathname === "/.well-known/did.json" || url.pathname === "/identity/did.json" || url.pathname === "/did.json") {

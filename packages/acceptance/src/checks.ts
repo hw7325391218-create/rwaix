@@ -553,7 +553,7 @@ export const CHECKS: Check[] = [
     name: "Two independent teams exchange NFT, licence, and qualification packs",
     clause: "§5.3 and §22: two independent implementation teams exchange the same trades",
     run: () => {
-      throw new NotEvaluated("This repository is one implementation. No second independent team exchanged NFT, licence, and qualification packs, so the §5.3 interop release criterion was not evaluated. Calling the same process twice is not that exchange.");
+      throw new NotEvaluated("This repository is one implementation. The W3C VC-API suites exercise that one issuer and verifier; they are not two independent teams exchanging NFT, licence, and qualification packs. docs/interop/rwaix.json is a local manifest with placeholder endpoints and is not a submission. The §5.3 interop release criterion stays NOT_EVALUATED until a second team completes that exchange.");
     },
   },
   {

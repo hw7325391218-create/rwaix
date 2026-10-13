@@ -1,12 +1,16 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { ManualClock, ProtocolError, keyFromSeed } from "@rwaix/protocol";
-import { AccountRecovery, didDocument, didKeyFromSigner, didWeb, issueCredential, localResolver, publicKeyFromDidKey, verifyCredential } from "../src/index.js";
+import { AccountRecovery, didDocument, didKey, didKeyEd25519, didKeyFromSigner, didWeb, issueCredential, localResolver, publicKeyFromDidKey, verifyCredential } from "../src/index.js";
 
 test("did:key round-trips and did:web document publishes the same key", () => {
   const key = keyFromSeed("did-subject");
   const did = didKeyFromSigner(key);
+  assert.equal(did.startsWith("did:key:zDna"), true);
+  assert.equal(didKey(key.publicKey), did);
   assert.deepEqual(publicKeyFromDidKey(did), key.publicKey);
+  const edDid = didKeyEd25519(new Uint8Array(32).fill(7));
+  assert.equal(edDid.startsWith("did:key:z6Mk"), true);
   const web = didWeb("127.0.0.1:8787");
   assert.equal(web, "did:web:127.0.0.1%3A8787");
   assert.equal(didWeb("example.com"), "did:web:example.com");

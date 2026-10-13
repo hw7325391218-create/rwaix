@@ -96,6 +96,19 @@ location = /app.css {
 }
 ```
 
+The VC-API is a separate path. This block is a proposal for a later host change. Compose, Caddy, and `install-ubuntu.sh` do not install it, and nothing here binds `0.0.0.0`. The route is unauthenticated so a W3C test harness can `POST` without a credential. It proxies to the paper server, which already mounts `/vc-api/` on `127.0.0.1`.
+
+| Browser path | Upstream |
+| --- | --- |
+| `/vc-api/` | `http://127.0.0.1:8787/vc-api/` |
+
+```nginx
+location /vc-api/ {
+    proxy_pass http://127.0.0.1:8787/vc-api/;
+    proxy_set_header Host $host;
+}
+```
+
 `/app/` with a trailing slash on `proxy_pass` strips the prefix, so `https://example.com/app/` is the UI and `https://example.com/app/did.json` is the DID document. For that layout set `DID_AUTHORITY=example.com:app`. The home page still requests absolute `/app.css`, `/app.js`, and `/api/`. The link to the deploy page is relative (`deploy.html`), and `deploy.js` is relative to that page, so `https://example.com/app/deploy.html` and `https://example.com/app/deploy.js` are covered by `location /app/`. A host-level DID (`DID_AUTHORITY=example.com`, id `did:web:example.com`) needs `location /.well-known/did.json` proxied to `http://127.0.0.1:8787/.well-known/did.json`. The installer Caddy path is separate and still listens only on `127.0.0.1`.
 
 ## Health and metrics
