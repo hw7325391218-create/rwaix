@@ -1,6 +1,6 @@
 # RWAIX reference implementation
 
-[![acceptance](https://github.com/hw7325391218-create/rwaix-reference/actions/workflows/acceptance.yml/badge.svg)](https://github.com/hw7325391218-create/rwaix-reference/actions/workflows/acceptance.yml)
+[![acceptance](https://github.com/hw7325391218-create/rwaix/actions/workflows/acceptance.yml/badge.svg)](https://github.com/hw7325391218-create/rwaix/actions/workflows/acceptance.yml)
 
 Paper/test system for the RWAIX trust and transaction proposal (whitepaper dated 2026-10-12, superseding v6.4). Protocol version `rwaix-0.1.0`, schema release `1.1.0`, implementation `0.5.1`.
 
@@ -95,9 +95,15 @@ pnpm demo
 
 ## Acceptance suite
 
-`pnpm acceptance` runs the 50 items in [`docs/acceptance/ACCEPTANCE-50.md`](docs/acceptance/ACCEPTANCE-50.md). It writes `packages/acceptance/out/acceptance-report.json` and `packages/acceptance/out/acceptance-report.md`. The headline is the count from that process, for example `47/50 passed (0 failed, 3 not evaluated)`. `NOT_EVALUATED` means the criterion was not met in that environment. The command does not reuse or claim the archived 2026-10-12 50/50 record.
+`pnpm acceptance` runs the 50 items in [`docs/acceptance/ACCEPTANCE-50.md`](docs/acceptance/ACCEPTANCE-50.md). It writes `packages/acceptance/out/acceptance-report.json` and `packages/acceptance/out/acceptance-report.md`. The headline is the count from that process, for example `48/50 passed (0 failed, 2 not evaluated)` in GitHub Actions, where Chrome is installed. On a machine without Chrome the browser layout item is also `NOT_EVALUATED`, so the same run reports `47/50 passed (0 failed, 3 not evaluated)`. `NOT_EVALUATED` means the criterion was not met in that environment. The command does not reuse or claim the archived 2026-10-12 50/50 record.
 
-Foundry is required for the chain-id and issuance items. Install `forge-std` first, as in the contract commands below. The browser layout item needs Chrome. `puppeteer-core` is installed with the workspace. Without Chrome that item is `NOT_EVALUATED`. The GitHub Actions acceptance job installs Chrome, so that item runs there. The two-team exchange and the section 22 performance and adoption study stay `NOT_EVALUATED`.
+Foundry is required for the chain-id and issuance items. Install `forge-std` first, as in the contract commands below. The browser layout item needs Chrome. `puppeteer-core` is installed with the workspace. Without Chrome that item is `NOT_EVALUATED`. The GitHub Actions acceptance job installs Chrome, so that item runs there. The two-team exchange (A21) and the section 22 performance and adoption study (A50) stay `NOT_EVALUATED`.
+
+## W3C VC interop and test-key notice
+
+`pnpm vc-interop` runs the pinned W3C VC test suites against the local VC-API: 118/87/102 passing, 0 failing. See [`docs/interop/README.md`](docs/interop/README.md).
+
+> **Warning:** the VC-API issuer keys, including the public endpoint at `https://www.rwaix.io/vc-api/`, are public test keys derived from fixed seeds in the source. Signatures from them carry no identity trust. Set `RWAIX_VC_EDDSA_SEED_HEX` and `RWAIX_VC_ECDSA_KEY_HEX` to use your own keys.
 
 GitHub Actions runs `pnpm acceptance` on push and on pull request and uploads the JSON and Markdown report as the `acceptance-report` artifact. The badge above links to that workflow.
 

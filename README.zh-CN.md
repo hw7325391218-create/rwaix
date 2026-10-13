@@ -1,6 +1,6 @@
 # RWAIX 参考实现
 
-[![acceptance](https://github.com/hw7325391218-create/rwaix-reference/actions/workflows/acceptance.yml/badge.svg)](https://github.com/hw7325391218-create/rwaix-reference/actions/workflows/acceptance.yml)
+[![acceptance](https://github.com/hw7325391218-create/rwaix/actions/workflows/acceptance.yml/badge.svg)](https://github.com/hw7325391218-create/rwaix/actions/workflows/acceptance.yml)
 
 这是 RWAIX 信任与交易提案（2026-10-12 白皮书，取代 v6.4）的纸面测试系统。协议版本 `rwaix-0.1.0`，模式发布 `1.1.0`，实现版本 `0.5.1`。
 
@@ -95,9 +95,15 @@ pnpm demo
 
 ## 验收套件
 
-`pnpm acceptance` 运行 [`docs/acceptance/ACCEPTANCE-50.md`](docs/acceptance/ACCEPTANCE-50.md) 里的 50 项。它写出 `packages/acceptance/out/acceptance-report.json` 和 `packages/acceptance/out/acceptance-report.md`。标题行是这次进程的真实计数，例如 `47/50 passed (0 failed, 3 not evaluated)`。`NOT_EVALUATED` 表示该环境没有满足这项条件。这条命令不重用、也不声称 2026-10-12 已归档的 50/50 记录。
+`pnpm acceptance` 运行 [`docs/acceptance/ACCEPTANCE-50.md`](docs/acceptance/ACCEPTANCE-50.md) 里的 50 项。它写出 `packages/acceptance/out/acceptance-report.json` 和 `packages/acceptance/out/acceptance-report.md`。标题行是这次进程的真实计数，例如在安装了 Chrome 的 GitHub Actions 中为 `48/50 passed (0 failed, 2 not evaluated)`。在没有 Chrome 的机器上，浏览器布局项也为 `NOT_EVALUATED`，结果为 `47/50 passed (0 failed, 3 not evaluated)`。`NOT_EVALUATED` 表示该环境没有满足这项条件。这条命令不重用、也不声称 2026-10-12 已归档的 50/50 记录。
 
-链 id 与发行外壳两项需要 Foundry，并先按下面的合约命令安装 `forge-std`。浏览器布局项需要 Chrome。`puppeteer-core` 随工作区安装。没有 Chrome 时该项为 `NOT_EVALUATED`。GitHub Actions 的验收任务会安装 Chrome，因此该项会在 CI 中执行。两个独立团队交换证据包，以及第 22 节的性能与采用研究，仍为 `NOT_EVALUATED`。
+链 id 与发行外壳两项需要 Foundry，并先按下面的合约命令安装 `forge-std`。浏览器布局项需要 Chrome。`puppeteer-core` 随工作区安装。没有 Chrome 时该项为 `NOT_EVALUATED`。GitHub Actions 的验收任务会安装 Chrome，因此该项会在 CI 中执行。两个独立团队交换证据包（A21），以及第 22 节的性能与采用研究（A50），仍为 `NOT_EVALUATED`。
+
+## W3C VC 互操作与测试密钥声明
+
+`pnpm vc-interop` 用固定提交的 W3C VC 测试套件测试本地 VC-API：118/87/102 通过，0 失败。详见 [`docs/interop/README.md`](docs/interop/README.md)。
+
+> **警告：** VC-API 的签发密钥（包括公开端点 `https://www.rwaix.io/vc-api/`）是由源码中固定种子派生的公开测试密钥。其签名不代表任何身份信任。可设置 `RWAIX_VC_EDDSA_SEED_HEX` 和 `RWAIX_VC_ECDSA_KEY_HEX` 使用自己的密钥。
 
 GitHub Actions 在 push 和 pull request 上运行 `pnpm acceptance`，并把 JSON 与 Markdown 报告上传为 `acceptance-report` 产物。上面的徽章指向该工作流。
 
