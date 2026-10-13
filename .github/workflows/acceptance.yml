@@ -1,0 +1,54 @@
+name: acceptance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: 1.8.5
+      - run: pnpm install --frozen-lockfile
+      - run: python3 -m pip install -r verifiers/python/requirements.txt
+      - name: Install forge-std
+        working-directory: contracts
+        run: forge install foundry-rs/forge-std@v1.17.0
+      - uses: browser-actions/setup-chrome@v1
+      - name: Chrome is available for the layout check
+        run: |
+          set -euo pipefail
+          bin=""
+          for name in google-chrome google-chrome-stable chrome chromium chromium-browser; do
+            if command -v "$name" >/dev/null 2>&1; then
+              bin="$(command -v "$name")"
+              break
+            fi
+          done
+          if [ -z "$bin" ]; then
+            echo "Chrome was not installed on PATH"
+            exit 1
+          fi
+          echo "CHROME_PATH=$bin" >> "$GITHUB_ENV"
+          "$bin" --version
+          node -e "const {createRequire}=require('node:module'); createRequire(process.cwd()+'/packages/acceptance/package.json')('puppeteer-core'); console.log('puppeteer-core ok')"
+      - name: Acceptance suite
+        run: pnpm acceptance
+      - name: Upload acceptance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-report
+          path: |
+            packages/acceptance/out/acceptance-report.json
+            packages/acceptance/out/acceptance-report.md

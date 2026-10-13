@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trust-object.schema.json",
+  "title": "TrustObject",
+  "description": "On-chain or off-chain anchor for a typed trust object. Holding this object is not a standing trust score and is not by itself a DCNFT investment right.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "protocolVersion",
+    "objectId",
+    "objectType",
+    "controller",
+    "lifecyclePolicy",
+    "lifecycleState",
+    "bindingVersion",
+    "metadataDigest"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.object.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectType": {
+      "enum": ["SUBJECT", "ASSET", "SERVICE_COMMITMENT", "CONTENT", "DEVICE", "DCNFT_SERIES"]
+    },
+    "controller": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+    "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "lifecyclePolicy": { "enum": ["NON_TRANSFERABLE", "TRANSFERABLE", "CONSENT_REQUIRED"] },
+    "lifecycleState": { "enum": ["DRAFT", "ACTIVE", "SUSPENDED", "REVOKED", "RETIRED"] },
+    "bindingVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "metadataDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "schemaRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "contentDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "subjectBinding": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "rightsDescriptorRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "contractAddress": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/address" },
+    "tokenId": { "type": "string", "pattern": "^[0-9]+$" }
+  }
+}

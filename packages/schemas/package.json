@@ -1,0 +1,11 @@
+{
+  "name": "@rwaix/schemas",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "Frozen JSON Schema pack for the RWAIX reference implementation (schema release 1.0.0).",
+  "type": "module",
+  "exports": {
+    "./*": "./v1/*"
+  }
+}

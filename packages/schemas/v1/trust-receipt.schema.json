@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trust-receipt.schema.json",
+  "title": "TrustReceipt",
+  "description": "Portable verification result. ALLOW is not acceptance, payment authorization, or a claim that external facts are true. EXPIRED, REVOKED, and DISPUTED are reason codes, never ALLOW.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "protocolVersion",
+    "receiptId",
+    "contextDigest",
+    "policyDigest",
+    "decisionRef",
+    "evidenceRoot",
+    "objectVersion",
+    "statusSnapshotRef",
+    "stateReference",
+    "evaluatedAt",
+    "validUntil",
+    "predicateResults",
+    "decision",
+    "reasonCodes",
+    "verifierRef"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.receipt.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "receiptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "contextDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "policyDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "decisionRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "evidenceRoot": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "objectVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "statusSnapshotRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "stateReference": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "evaluatedAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "validUntil": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "predicateResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ruleId", "predicate", "outcome", "reasonCode"],
+        "properties": {
+          "ruleId": { "type": "string" },
+          "predicate": { "type": "string" },
+          "outcome": { "enum": ["pass", "deny", "indeterminate"] },
+          "reasonCode": { "type": "string" }
+        }
+      }
+    },
+    "decision": { "enum": ["ALLOW", "DENY", "INDETERMINATE"] },
+    "reasonCodes": { "type": "array", "items": { "type": "string" } },
+    "verifierRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" }
+  }
+}

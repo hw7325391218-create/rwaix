@@ -1,0 +1,25 @@
+# Example unit for an existing host. Copy to /etc/systemd/system/rwaix.service,
+# edit WorkingDirectory, POSTGRES_PASSWORD, and DID_AUTHORITY, then:
+#   systemctl daemon-reload && systemctl enable --now rwaix.service
+#
+# Type=oneshot starts `docker compose up -d`. The long-running services set
+# restart: unless-stopped, so Docker restarts those containers. The one-shot
+# deploy service stays restart: "no". Anvil has no volume: a container restart
+# is an empty chain, and this unit does not rebroadcast Deploy.s.sol.
+[Unit]
+Description=RWAIX paper/test compose stack
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/rwaix-reference
+Environment=POSTGRES_PASSWORD=change-me
+Environment=DID_AUTHORITY=127.0.0.1:8787
+ExecStart=/usr/bin/docker compose -f deploy/docker-compose.yml up -d --build
+ExecStop=/usr/bin/docker compose -f deploy/docker-compose.yml down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

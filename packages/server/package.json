@@ -1,0 +1,17 @@
+{
+  "name": "@rwaix/server",
+  "version": "0.5.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/main.ts" },
+  "dependencies": {
+    "@rwaix/conformance": "workspace:*",
+    "@rwaix/identity": "workspace:*",
+    "@rwaix/indexer": "workspace:*",
+    "@rwaix/network": "workspace:*",
+    "@rwaix/persistence": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/scenarios": "workspace:*"
+  }
+}

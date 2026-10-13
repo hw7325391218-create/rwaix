@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090d16" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232fddb0' d='M12 3l8 4.5v9L12 21l-8-4.5v-9z'/%3E%3C/svg%3E" />
+  <title>RWAIX reference</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div id="network-banner"></div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></span>
+        <div>
+          <p class="kicker" data-zh="纸面测试 · 不连接主网 · 不接收真实资金" data-en="Paper test · no mainnet · no real funds">纸面测试 · 不连接主网 · 不接收真实资金</p>
+          <h1>RWAIX</h1>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="theme" type="button">浅色</button>
+        <button id="lang" type="button">English</button>
+        <button id="fresh" type="button"><span data-zh="新建本地演示" data-en="New local demo">新建本地演示</span></button>
+        <button id="export" type="button"><span data-zh="导出复核包" data-en="Export review pack">导出复核包</span></button>
+        <a id="deploy-link" class="btn primary" href="deploy.html"><span data-zh="部署" data-en="Deploy">部署</span></a>
+      </div>
+    </header>
+    <p class="lede" data-zh="2026-10-12 纸面原型。八个合成场景，NFT 交易是默认入口。每个场景展示承诺、证据核验、独立验收和分账，并披露实现范围、本次记录和未完成的生产条件。不连接公司平台，不铸造真实 NFT。单个不可分订单和零网络费是合成参数。算力是后续扩展。" data-en="2026-10-12 paper prototype. Eight synthetic scenarios, with the NFT trade as the default. Each scenario shows commitment, evidence verification, independent acceptance, and split settlement, and discloses scope, this run's record, and unfinished production conditions. No company platform and no real NFT mint. The indivisible order and zero network fee are synthetic parameters. Compute is a later extension.">2026-10-12 纸面原型。八个合成场景，NFT 交易是默认入口。每个场景展示承诺、证据核验、独立验收和分账，并披露实现范围、本次记录和未完成的生产条件。不连接公司平台，不铸造真实 NFT。单个不可分订单和零网络费是合成参数。算力是后续扩展。</p>
+    <nav id="scenarios" class="scenario-nav"></nav>
+    <main class="board">
+      <section class="card span-2" id="steps"></section>
+      <section class="card span-2">
+        <div class="section-head"><h2 data-zh="证据图" data-en="Evidence graph">证据图</h2></div>
+        <div id="graph"></div>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="回执" data-en="Receipt">回执</h2></div>
+        <div id="receipt"></div>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="费用拆分" data-en="Fee split">费用拆分</h2></div>
+        <div class="table-wrap"><table id="fees"></table></div>
+      </section>
+      <section class="card span-2">
+        <div class="section-head"><h2 data-zh="账本与对账" data-en="Ledgers and reconciliation">账本与对账</h2></div>
+        <div id="ledgers"></div>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="实现与测试范围" data-en="Implementation and test scope">实现与测试范围</h2></div>
+        <div id="scope"></div>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="符合性" data-en="Conformance">符合性</h2></div>
+        <p id="claim"></p>
+        <div class="table-wrap"><table id="modules"></table></div>
+      </section>
+    </main>
+    <p class="foot">0.5.1 · paper/test · not certification</p>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

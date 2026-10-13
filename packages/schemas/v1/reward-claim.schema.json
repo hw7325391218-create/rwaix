@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/reward-claim.schema.json",
+  "title": "RewardClaim",
+  "description": "Unique per service, provider, and budget period. Allocated, unclaimed, and unknown amounts keep occupying the budget. Timeout, a new address, or a bridge does not mint a second claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "claimId",
+    "serviceId",
+    "provider",
+    "verificationRef",
+    "amount",
+    "assetId",
+    "budgetPeriod",
+    "source",
+    "state"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.reward.claim.v1" },
+    "claimId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "serviceId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "provider": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "verificationRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "amount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "budgetPeriod": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "source": { "enum": ["EARNED_FEE", "APPROVED_SUBSIDY", "APPROVED_EMISSION"] },
+    "state": { "enum": ["SUBMITTED", "APPROVED", "CLAIMABLE", "CLAIMED", "REJECTED"] }
+  }
+}

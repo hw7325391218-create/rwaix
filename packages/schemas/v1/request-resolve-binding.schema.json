@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-resolve-binding.schema.json",
+  "title": "resolveBinding request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "objectId"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.resolveBinding.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "bindingVersion": { "type": "string", "pattern": "^[0-9]+$" }
+  }
+}

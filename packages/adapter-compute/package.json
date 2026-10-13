@@ -1,0 +1,13 @@
+{
+  "name": "@rwaix/adapter-compute",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@rwaix/adapter-sdk": "workspace:*",
+    "@rwaix/policy-engine": "workspace:*",
+    "@rwaix/protocol": "workspace:*"
+  }
+}

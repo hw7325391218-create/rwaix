@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/rights-binding.schema.json",
+  "title": "RightsBinding",
+  "description": "Test-only pointer from a DCNFT series object to a rights document digest. This reference does not issue securities, equity, or a cash distribution right.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "seriesId",
+    "spvRef",
+    "rightsDocumentDigest",
+    "objectId",
+    "bindingVersion",
+    "transferRestriction",
+    "testOnly",
+    "securitiesIssuance"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.rights.binding.v1" },
+    "seriesId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "spvRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "rightsDocumentDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "rosterRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "bindingVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "transferRestriction": { "enum": ["DISABLED", "QUALIFIED_ONLY", "CONSENT_REQUIRED"] },
+    "testOnly": { "const": true },
+    "securitiesIssuance": { "const": false }
+  }
+}

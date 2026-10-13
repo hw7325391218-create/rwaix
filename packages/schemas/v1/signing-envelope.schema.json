@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/signing-envelope.schema.json",
+  "title": "SigningEnvelope",
+  "description": "Business signature domain. Binds protocol version, chain or domain, action, audience, nonce, deadline, and the digest of the canonical request. EIP-712 does not by itself provide replay protection; nonce and deadline do.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "protocolVersion",
+    "domain",
+    "chainId",
+    "action",
+    "audience",
+    "nonce",
+    "deadline",
+    "payloadDigest"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.signing.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "domain": { "const": "rwaix.signing.v1" },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "action": {
+      "enum": [
+        "registerObject",
+        "publishVersion",
+        "resolveBinding",
+        "submitEvidence",
+        "evaluatePolicy",
+        "verifyReceipt",
+        "checkStatus",
+        "prepareIntent",
+        "executeIntent",
+        "submitTradeEvent",
+        "acceptObligation",
+        "openDispute",
+        "authorizePayment",
+        "reconcileFunds",
+        "registerFeeQuote",
+        "lockBond",
+        "releaseBond",
+        "slashBond",
+        "submitReward",
+        "approveReward",
+        "claimReward",
+        "trade",
+        "setStatus",
+        "agent"
+      ]
+    },
+    "audience": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "nonce": { "type": "string", "minLength": 8, "maxLength": 128 },
+    "deadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "payloadDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" }
+  }
+}

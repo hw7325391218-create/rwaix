@@ -1,0 +1,14 @@
+{
+  "name": "@rwaix/zk",
+  "version": "0.2.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@rwaix/adapter-compute": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/sdk": "workspace:*",
+    "snarkjs": "0.7.5"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/dispute-record.schema.json",
+  "title": "DisputeRecord",
+  "description": "N07. Silence is not an admission. RESOLVED means the named procedure finished inside its authority, not that every legal remedy is closed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "disputeId",
+    "tradeId",
+    "obligationId",
+    "claimant",
+    "affectedAmount",
+    "assetId",
+    "reason",
+    "evidenceDeadline",
+    "supplementRule",
+    "dispositionAuthority",
+    "noticeRef",
+    "remedyPath",
+    "status"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.dispute.v1" },
+    "disputeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "tradeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "claimant": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+    "affectedAmount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "evidenceDeadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "supplementRule": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "dispositionAuthority": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "noticeRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "remedyPath": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "status": { "enum": ["OPEN", "RESOLVED"] }
+  }
+}

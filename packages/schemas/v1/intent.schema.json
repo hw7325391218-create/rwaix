@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/intent.schema.json",
+  "title": "ExecutionIntent",
+  "description": "Persisted before any downstream submit. The idempotency key is bound to this digest. TIMEOUT becomes OUTCOME_UNKNOWN and does not release the reservation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "intentId",
+    "receiptId",
+    "action",
+    "payer",
+    "payee",
+    "assetId",
+    "amount",
+    "obligationId",
+    "nonce",
+    "deadline",
+    "maxStalenessSeconds",
+    "state"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.intent.v1" },
+    "intentId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "receiptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "action": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "payer": { "type": "string", "minLength": 1 },
+    "payee": { "type": "string", "minLength": 1 },
+    "assetId": { "type": "string", "minLength": 1 },
+    "amount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "nonce": { "type": "string", "minLength": 8, "maxLength": 128 },
+    "deadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "maxStalenessSeconds": { "type": "string", "pattern": "^[0-9]+$" },
+    "state": {
+      "enum": ["PREPARED", "SUBMITTED", "OUTCOME_UNKNOWN", "EXECUTED", "FAILED_CONFIRMED"]
+    },
+    "inclusion": { "enum": ["SUBMITTED", "INCLUDED", "FINAL", "REORGED"] }
+  }
+}

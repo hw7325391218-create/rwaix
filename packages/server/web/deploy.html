@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090d16" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232fddb0' d='M12 3l8 4.5v9L12 21l-8-4.5v-9z'/%3E%3C/svg%3E" />
+  <title>RWAIX deploy</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div id="network-banner" class="banner-test"></div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></span>
+        <div>
+          <p class="kicker">paper/test deploy · no private key · no mint</p>
+          <h1>RWAIX</h1>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="theme" type="button">浅色</button>
+        <button id="lang" type="button">English</button>
+        <a class="btn" href="./"><span data-zh="返回演示" data-en="Back to demo">返回演示</span></a>
+      </div>
+    </header>
+    <p class="lede" data-zh="部署 $RWAIX 与 DCNFT 合约外壳。默认本地。主网需要服务器环境变量 RWAIX_MAINNET_OPT_IN=1，并且在下面输入 MAINNET。页面只请求浏览器钱包签名，不读取私钥，不代签，不铸造，不预挖，不出售。发行需要法律与合规签署。这不是专业审计。" data-en="Deploy the $RWAIX and DCNFT shells. Local is the default. Mainnet needs the server env flag RWAIX_MAINNET_OPT_IN=1 and the typed word MAINNET below. This page asks a browser wallet to sign. It does not read a private key, sign on your behalf, mint, premine, or sell. Issuance requires legal and compliance sign-off. This is not a professional audit.">部署 $RWAIX 与 DCNFT 合约外壳。默认本地。主网需要服务器环境变量 RWAIX_MAINNET_OPT_IN=1，并且在下面输入 MAINNET。页面只请求浏览器钱包签名，不读取私钥，不代签，不铸造，不预挖，不出售。发行需要法律与合规签署。这不是专业审计。</p>
+    <main class="board">
+      <section class="card span-2">
+        <ol id="flow" class="stepper">
+          <li class="step is-ok" data-step="network" style="--i:0">
+            <span class="step-index">1</span>
+            <div>
+              <p class="step-title"><span data-zh="选择网络" data-en="Choose a network">选择网络</span></p>
+              <p class="step-note"><span data-zh="默认本地。切到主网时横幅显示 MAINNET。" data-en="Local is the default. The banner shows MAINNET when mainnet is selected.">默认本地。切到主网时横幅显示 MAINNET。</span></p>
+            </div>
+          </li>
+          <li class="step" data-step="wallet" style="--i:1">
+            <span class="step-index">2</span>
+            <div>
+              <p class="step-title"><span data-zh="连接浏览器钱包" data-en="Connect a browser wallet">连接浏览器钱包</span></p>
+              <p class="step-note"><span data-zh="只使用注入的钱包。本页不接收私钥。" data-en="Injected wallets only. This page does not accept a private key.">只使用注入的钱包。本页不接收私钥。</span></p>
+            </div>
+          </li>
+          <li class="step" data-step="gas" style="--i:2">
+            <span class="step-index">3</span>
+            <div>
+              <p class="step-title"><span data-zh="估算后再签名" data-en="Estimate, then sign">估算后再签名</span></p>
+              <p class="step-note"><span data-zh="两笔交易只部署合约，不铸造、不预挖、不出售。" data-en="The two transactions only deploy contracts. They do not mint, premine, or sell.">两笔交易只部署合约，不铸造、不预挖、不出售。</span></p>
+            </div>
+          </li>
+        </ol>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="网络" data-en="Network">网络</h2></div>
+        <nav id="switch" class="segment">
+          <button type="button" data-net="local" aria-pressed="true">local</button>
+          <button type="button" data-net="sepolia">sepolia</button>
+          <button type="button" data-net="mainnet">mainnet</button>
+        </nav>
+        <p id="server-network" class="mono"></p>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 data-zh="确认" data-en="Confirmation">确认</h2></div>
+        <label class="field" for="phrase">
+          <span data-zh="主网请输入 MAINNET。其他网络留空。" data-en="On mainnet, type MAINNET. Leave this empty on other networks.">主网请输入 MAINNET。其他网络留空。</span>
+          <input id="phrase" autocomplete="off" spellcheck="false" />
+        </label>
+        <p><button id="connect" type="button" class="primary"><span data-zh="连接浏览器钱包" data-en="Connect browser wallet">连接浏览器钱包</span></button></p>
+        <p id="account" class="mono"></p>
+      </section>
+      <section class="card span-2">
+        <div class="section-head"><h2 data-zh="Gas" data-en="Gas">Gas</h2></div>
+        <p><button id="estimate" type="button"><span data-zh="估算 gas" data-en="Estimate gas">估算 gas</span></button></p>
+        <pre id="gas"></pre>
+        <label class="check"><input id="ack" type="checkbox" /> <span data-zh="我确认这两笔交易只部署合约，不铸造、不预挖、不出售。" data-en="I confirm these two transactions only deploy contracts. They do not mint, premine, or sell.">我确认这两笔交易只部署合约，不铸造、不预挖、不出售。</span></label>
+        <p><button id="send" type="button" class="primary" disabled><span data-zh="请求钱包签名" data-en="Ask wallet to sign">请求钱包签名</span></button></p>
+        <pre id="result"></pre>
+      </section>
+    </main>
+    <p class="foot">0.5.1 · paper/test · not certification</p>
+  </div>
+  <script type="module" src="deploy.js"></script>
+</body>
+</html>

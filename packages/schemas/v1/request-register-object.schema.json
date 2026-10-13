@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-register-object.schema.json",
+  "title": "registerObject request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "objectId", "objectType", "controller", "lifecyclePolicy", "metadataDigest"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.registerObject.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectType": { "enum": ["SUBJECT", "ASSET", "SERVICE_COMMITMENT", "CONTENT", "DEVICE", "DCNFT_SERIES"] },
+    "controller": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+    "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "lifecyclePolicy": { "enum": ["NON_TRANSFERABLE", "TRANSFERABLE", "CONSENT_REQUIRED"] },
+    "metadataDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" }
+  }
+}

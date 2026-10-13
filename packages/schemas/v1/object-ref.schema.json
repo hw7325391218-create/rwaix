@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/object-ref.schema.json",
+  "title": "ObjectRef",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["objectId", "bindingVersion"],
+  "properties": {
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "bindingVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "contractAddress": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/address" },
+    "tokenId": { "type": "string", "pattern": "^[0-9]+$" }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/conformance-manifest.schema.json",
+  "title": "ConformanceManifest",
+  "description": "N10. A pass on this manifest is limited to the tested scope of this reference implementation. It is not standards certification. Modules that are not implemented or not tested use status 未评测. MUST rules cannot be waived into a pass.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "specVersion",
+    "profileId",
+    "profileVersion",
+    "implementationId",
+    "implementationVersion",
+    "codeDigest",
+    "roles",
+    "modules",
+    "dependencies",
+    "trustRoots",
+    "testPackVersion",
+    "results",
+    "knownLimitations",
+    "conformanceClaim"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.conformance.v1" },
+    "specVersion": { "type": "string" },
+    "profileId": { "type": "string" },
+    "profileVersion": { "type": "string" },
+    "implementationId": { "type": "string" },
+    "implementationVersion": { "type": "string" },
+    "codeDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "roles": { "type": "array", "items": { "type": "string" } },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["moduleId", "status"],
+        "properties": {
+          "moduleId": { "type": "string" },
+          "status": { "enum": ["pass", "fail", "未评测", "deviation"] },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "trustRoots": { "type": "array", "items": { "type": "string" } },
+    "testPackVersion": { "type": "string" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["vectorId", "rule", "strength", "result"],
+        "properties": {
+          "vectorId": { "type": "string" },
+          "rule": { "type": "string" },
+          "strength": { "enum": ["MUST", "SHOULD", "MAY"] },
+          "result": { "enum": ["pass", "fail", "未评测"] },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "knownLimitations": { "type": "array", "items": { "type": "string" } },
+    "conformanceClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "passed", "statement"],
+      "properties": {
+        "scope": { "type": "string" },
+        "passed": { "type": "boolean" },
+        "statement": { "type": "string" }
+      }
+    }
+  }
+}

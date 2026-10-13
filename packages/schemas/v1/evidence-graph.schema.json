@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/evidence-graph.schema.json",
+  "title": "EvidenceGraph",
+  "description": "Typed dependency graph. The subgraph used for a verification conclusion must be acyclic and inside the policy budget. Forwarding the same source through several wrappers does not create independent sources: sourceId is the independence key.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "graphId", "nodes", "edges"],
+  "properties": {
+    "schemaId": { "const": "rwaix.evidence.graph.v1" },
+    "graphId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "https://rwaix.example/schemas/v1/evidence-node.schema.json" }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["edgeId", "edgeType", "from", "to"],
+        "properties": {
+          "edgeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "edgeType": { "enum": ["ISSUED_BY", "BASED_ON", "AUTHORIZES", "SUPERSEDES", "REVIEWED_BY"] },
+          "from": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "to": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" }
+        }
+      }
+    }
+  }
+}

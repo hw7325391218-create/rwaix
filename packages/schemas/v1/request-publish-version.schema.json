@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-publish-version.schema.json",
+  "title": "publishVersion request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "objectId", "bindingVersion", "contentDigest", "metadataDigest"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.publishVersion.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "bindingVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "contentDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "metadataDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "subjectBinding": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "rightsDescriptorRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "contractAddress": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/address" },
+    "tokenId": { "type": "string", "pattern": "^[0-9]+$" },
+    "lifecycleTransition": { "enum": ["ACTIVE", "SUSPENDED", "REVOKED", "RETIRED"] }
+  }
+}

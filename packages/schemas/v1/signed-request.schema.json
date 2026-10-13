@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/signed-request.schema.json",
+  "title": "SignedRequest",
+  "description": "Outer wrapper for all nine interfaces and the reference trade helpers. The JWS signs the SigningEnvelope, whose payloadDigest is the canonical request body.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "request", "chainId", "audience", "nonce", "deadline", "proof"],
+  "properties": {
+    "schemaId": { "const": "rwaix.signed.v1" },
+    "request": { "type": "object" },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "audience": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "nonce": { "type": "string", "minLength": 8, "maxLength": 128 },
+    "deadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "proof": { "type": "string", "minLength": 1 }
+  }
+}

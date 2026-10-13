@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/fee-receipt.schema.json",
+  "title": "FeeReceipt",
+  "description": "N06. payment instruction, funds receipt, and discharge are separate states. One paymentAttemptId sits in exactly one coverage bucket.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "feeReceiptId",
+    "quoteId",
+    "paymentAttemptId",
+    "obligationId",
+    "instructionState",
+    "fundsReceiptState",
+    "dischargeState",
+    "amount",
+    "assetId",
+    "outcome"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.fee.receipt.v1" },
+    "feeReceiptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "quoteId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "paymentAttemptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "instructionState": { "enum": ["RESERVED", "SUBMITTED", "OUTCOME_UNKNOWN", "FAILED_CONFIRMED"] },
+    "fundsReceiptState": { "enum": ["NONE", "PENDING", "ATTRIBUTED"] },
+    "dischargeState": { "enum": ["NONE", "DISCHARGED"] },
+    "amount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "assetId": { "type": "string" },
+    "outcome": { "enum": ["NONE", "OUTCOME_UNKNOWN", "CONFIRMED_EXECUTION", "FAILED_CONFIRMED"] }
+  }
+}

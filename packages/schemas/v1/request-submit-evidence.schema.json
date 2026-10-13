@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-submit-evidence.schema.json",
+  "title": "submitEvidence request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "evidenceId", "graph"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.submitEvidence.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "evidenceId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "graph": { "$ref": "https://rwaix.example/schemas/v1/evidence-graph.schema.json" },
+    "bundle": { "$ref": "https://rwaix.example/schemas/v1/evidence-bundle.schema.json" },
+    "credential": { "$ref": "https://rwaix.example/schemas/v1/credential-envelope.schema.json" },
+    "selectiveDisclosure": { "type": "string", "minLength": 1 },
+    "zkProof": { "type": "object" }
+  }
+}

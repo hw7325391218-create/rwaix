@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trade-event.schema.json",
+  "title": "TradeEvent",
+  "description": "N04. sequence and prevEventDigest are scoped to streamId. Cross-stream dependencies use causalRefs. effectiveAt and recordedAt are both required and are not substitutes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "eventId",
+    "tradeId",
+    "obligationApplicable",
+    "eventType",
+    "actor",
+    "authorityRef",
+    "streamId",
+    "sourceId",
+    "prevEventDigest",
+    "sequence",
+    "causalRefs",
+    "effectiveAt",
+    "evidenceRefs",
+    "signingDomain"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.trade.event.v1" },
+    "eventId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "tradeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "obligationApplicable": { "type": "boolean" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "eventType": {
+      "enum": [
+        "COMMITTED",
+        "DELIVERED",
+        "VERIFIED",
+        "ACCEPTED",
+        "PAYMENT_AUTHORIZED",
+        "PAYMENT_SUBMITTED",
+        "FUNDS_RECORDED",
+        "DISCHARGED",
+        "DISPUTED",
+        "CANCELLED",
+        "REORGED"
+      ]
+    },
+    "actor": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+    "authorityRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "streamId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "sourceId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "prevEventDigest": {
+      "oneOf": [
+        { "const": "genesis" },
+        { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" }
+      ]
+    },
+    "sequence": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+    "causalRefs": {
+      "type": "array",
+      "items": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" }
+    },
+    "effectiveAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "recordedAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "evidenceRefs": {
+      "type": "array",
+      "items": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" }
+    },
+    "quantity": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "unit": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "signingDomain": { "const": "rwaix.signing.v1" },
+    "dimension": {
+      "enum": ["COMMITMENT", "FULFILLMENT", "PAYMENT_EXECUTION", "FUNDS", "DISPUTE"]
+    },
+    "inclusion": { "enum": ["SUBMITTED", "INCLUDED", "FINAL", "REORGED"] }
+  }
+}

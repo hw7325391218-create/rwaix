@@ -1,0 +1,14 @@
+{
+  "name": "@rwaix/scenarios",
+  "version": "0.4.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@rwaix/adapter-profiles": "workspace:*",
+    "@rwaix/policy-engine": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/sdk": "workspace:*"
+  }
+}

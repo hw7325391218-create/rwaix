@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+contracts/lib/
+.env
+*.tsbuildinfo
+packages/conformance/out/
+packages/acceptance/out/
+data/
+__pycache__/
+*.pyc

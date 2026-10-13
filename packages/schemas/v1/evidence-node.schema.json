@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/evidence-node.schema.json",
+  "title": "EvidenceNode",
+  "description": "A node in the evidence dependency graph. payload may contain profile fields. Unknown payload fields are kept inside the signed digest and are accepted or rejected by the pinned policy's unknownField rule.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["nodeId", "nodeType", "sourceId", "controllerId", "contentDigest"],
+  "properties": {
+    "nodeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "nodeType": { "enum": ["CREDENTIAL", "OBSERVATION", "ATTESTATION", "REVIEW", "ANCHOR"] },
+    "sourceId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "controllerId": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "contentDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "issuer": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "capturedAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "payload": { "type": "object" }
+  }
+}

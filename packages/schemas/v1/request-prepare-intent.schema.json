@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-prepare-intent.schema.json",
+  "title": "prepareIntent request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "intentId", "receiptId", "action", "payer", "payee", "assetId", "amount", "obligationId", "intentNonce", "intentDeadline", "maxStalenessSeconds"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.prepareIntent.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "intentId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "receiptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "action": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "payer": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "payee": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "amount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "intentNonce": { "type": "string", "minLength": 8, "maxLength": 128 },
+    "intentDeadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "maxStalenessSeconds": { "type": "string", "pattern": "^[0-9]+$" },
+    "agentGrantId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "agentTool": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "untrustedNote": { "type": "string", "maxLength": 512 }
+  }
+}

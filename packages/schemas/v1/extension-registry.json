@@ -1,0 +1,18 @@
+{
+  "schemaRelease": "1.0.0",
+  "description": "N09. An unregistered extension key is rejected. A required extension that is missing is rejected. Optional extensions stay inside the signed document and are not interpreted by the core.",
+  "extensions": [
+    {
+      "id": "compute.metering",
+      "required": false,
+      "profileId": "compute.delivery",
+      "notes": "Optional metering blob for the compute adapter. Core does not price it."
+    },
+    {
+      "id": "profile.required-demo",
+      "required": true,
+      "profileId": "conformance.required-extension",
+      "notes": "Fixture used to prove a missing required extension is rejected. It has no production behavior."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: python3 -m pip install -r verifiers/python/requirements.txt
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm test:python
+      - run: pnpm conformance
+      - run: pnpm demo
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Anvil command stays one sh -c argument
+        run: bash deploy/check-compose-anvil.sh
+
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: 1.8.5
+      - name: Install forge-std
+        working-directory: contracts
+        run: forge install foundry-rs/forge-std@v1.17.0
+      - name: forge test
+        working-directory: contracts
+        run: forge test

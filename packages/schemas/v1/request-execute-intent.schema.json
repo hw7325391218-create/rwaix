@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-execute-intent.schema.json",
+  "title": "executeIntent request",
+  "description": "TIMEOUT records OUTCOME_UNKNOWN, keeps the reservation, and refuses a second attempt under a new asset. REORGED returns the intent to re-check and is not treated as final. Inclusion below FINAL is rejected when the intent requires finality.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "intentId", "mode", "inclusion"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.executeIntent.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "intentId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "mode": { "enum": ["CONFIRM", "TIMEOUT", "FAIL_CONFIRMED"] },
+    "inclusion": { "enum": ["SUBMITTED", "INCLUDED", "FINAL", "REORGED"] }
+  }
+}

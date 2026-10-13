@@ -1,0 +1,24 @@
+{
+  "schemaRelease": "1.0.0",
+  "description": "Reason codes carried on PolicyDecision and TrustReceipt. They are not success aliases. REVOKED, EXPIRED, and DISPUTED never mean ALLOW.",
+  "codes": [
+    "OK",
+    "ISSUER_NOT_ALLOWED",
+    "STATUS_REVOKED",
+    "STATUS_SUSPENDED",
+    "STATUS_EXPIRED",
+    "STATUS_UNAVAILABLE",
+    "EVIDENCE_STALE",
+    "EVIDENCE_UNAVAILABLE",
+    "DOMAIN_POLICY_SCOPE_MISMATCH",
+    "GRAPH_CYCLE",
+    "AUDIENCE_MISMATCH",
+    "PURPOSE_MISMATCH",
+    "ACTION_NOT_ALLOWED",
+    "DEADLINE_PASSED",
+    "UNKNOWN_FIELD",
+    "POLICY_NOT_SATISFIED",
+    "MISSING_REQUIRED_FIELD",
+    "MISSING_AUTHORITY"
+  ]
+}

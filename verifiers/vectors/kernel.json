@@ -1,0 +1,1259 @@
+{
+  "canonical": [
+    {
+      "value": {
+        "b": 1,
+        "a": 2
+      },
+      "canonical": "{\"a\":2,\"b\":1}",
+      "digest": "sha256:d3626ac30a87e6f7a6428233b3c68299976865fa5508e4267c5415c76af7a772"
+    },
+    {
+      "value": {
+        "amount": "10",
+        "asset": "USD_TEST"
+      },
+      "canonical": "{\"amount\":\"10\",\"asset\":\"USD_TEST\"}",
+      "digest": "sha256:c8f2730e00fe42a49ea0adf1ea74920b7892b7c596e7492f09183b55722a28ee"
+    },
+    {
+      "value": [
+        "b",
+        "a"
+      ],
+      "canonical": "[\"b\",\"a\"]",
+      "digest": "sha256:02d8bc3008a9bb0dcc4b86d7fd3428ced792355c733c19756bec5a56dc61b2c5"
+    }
+  ],
+  "policies": [
+    {
+      "id": "allow",
+      "input": {
+        "context": {
+          "schemaId": "rwaix.context.v1",
+          "audience": "rwaix:licensee",
+          "purpose": "content.license.verify",
+          "objectRef": {
+            "objectId": "license",
+            "bindingVersion": "1"
+          },
+          "requestedAction": "content.use",
+          "domain": "content",
+          "subjectRef": "license",
+          "challengeNonce": "nonce-0001",
+          "deadline": "2026-12-01T00:00:00Z",
+          "policyVersion": "1.0.0"
+        },
+        "policy": {
+          "schemaId": "rwaix.policy.v1",
+          "policyId": "content.license",
+          "version": "1.0.0",
+          "unknownField": "REJECT",
+          "budget": {
+            "maxNodes": 32,
+            "maxEdges": 64,
+            "maxDepth": 8,
+            "maxSteps": 400,
+            "timeoutMs": 1000
+          },
+          "allowedFields": [
+            "workVersion",
+            "territory",
+            "sublicense",
+            "trainingUse"
+          ],
+          "rules": [
+            {
+              "id": "issuer",
+              "predicate": "issuerAllowlist",
+              "params": {
+                "issuers": [
+                  "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+                ]
+              }
+            },
+            {
+              "id": "status",
+              "predicate": "statusNotIn",
+              "params": {
+                "forbidden": [
+                  "REVOKED",
+                  "SUSPENDED",
+                  "EXPIRED"
+                ]
+              }
+            },
+            {
+              "id": "fresh",
+              "predicate": "evidenceFresh",
+              "params": {
+                "maxAgeSeconds": 86400
+              }
+            },
+            {
+              "id": "audience",
+              "predicate": "audienceEquals",
+              "params": {
+                "audience": "rwaix:licensee"
+              }
+            },
+            {
+              "id": "action",
+              "predicate": "actionAllowlist",
+              "params": {
+                "actions": [
+                  "content.use"
+                ]
+              }
+            },
+            {
+              "id": "scope",
+              "predicate": "domainScopeMatch",
+              "params": {
+                "fields": [
+                  "workVersion",
+                  "territory",
+                  "sublicense"
+                ]
+              }
+            },
+            {
+              "id": "acyclic",
+              "predicate": "graphAcyclic",
+              "params": {}
+            },
+            {
+              "id": "budget",
+              "predicate": "graphWithinBudget",
+              "params": {}
+            },
+            {
+              "id": "purpose",
+              "predicate": "purposeEquals",
+              "params": {
+                "purpose": "content.license.verify"
+              }
+            },
+            {
+              "id": "deadline",
+              "predicate": "deadlineNotPassed",
+              "params": {}
+            }
+          ]
+        },
+        "graph": {
+          "schemaId": "rwaix.evidence.graph.v1",
+          "graphId": "g-license",
+          "nodes": [
+            {
+              "nodeId": "cred",
+              "nodeType": "CREDENTIAL",
+              "sourceId": "issuer",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "issuer": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "capturedAt": "2026-10-11T00:00:00Z"
+            },
+            {
+              "nodeId": "obs",
+              "nodeType": "OBSERVATION",
+              "sourceId": "src",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "capturedAt": "2026-10-11T00:00:00Z",
+              "payload": {
+                "workVersion": "work-v3",
+                "territory": "CN",
+                "sublicense": "no"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "edgeId": "e1",
+              "edgeType": "BASED_ON",
+              "from": "obs",
+              "to": "cred"
+            }
+          ]
+        },
+        "statusSnapshot": {
+          "schemaId": "rwaix.status.snapshot.v1",
+          "snapshotId": "snap",
+          "asOf": "2026-10-11T00:00:00Z",
+          "entries": [
+            {
+              "subjectRef": "license",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terms": {
+          "workVersion": "work-v3",
+          "territory": "CN",
+          "sublicense": "no"
+        },
+        "evaluationTime": "2026-10-11T00:00:00Z",
+        "startedAtMs": 0,
+        "nowMs": 1
+      },
+      "expect": {
+        "decision": "ALLOW",
+        "reasonCodes": [
+          "OK"
+        ],
+        "predicateResults": [
+          {
+            "ruleId": "issuer",
+            "predicate": "issuerAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "status",
+            "predicate": "statusNotIn",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "fresh",
+            "predicate": "evidenceFresh",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "audience",
+            "predicate": "audienceEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "action",
+            "predicate": "actionAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "scope",
+            "predicate": "domainScopeMatch",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "acyclic",
+            "predicate": "graphAcyclic",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "budget",
+            "predicate": "graphWithinBudget",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "purpose",
+            "predicate": "purposeEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "deadline",
+            "predicate": "deadlineNotPassed",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scope",
+      "input": {
+        "context": {
+          "schemaId": "rwaix.context.v1",
+          "audience": "rwaix:licensee",
+          "purpose": "content.license.verify",
+          "objectRef": {
+            "objectId": "license",
+            "bindingVersion": "1"
+          },
+          "requestedAction": "content.use",
+          "domain": "content",
+          "subjectRef": "license",
+          "challengeNonce": "nonce-0001",
+          "deadline": "2026-12-01T00:00:00Z",
+          "policyVersion": "1.0.0"
+        },
+        "policy": {
+          "schemaId": "rwaix.policy.v1",
+          "policyId": "content.license",
+          "version": "1.0.0",
+          "unknownField": "REJECT",
+          "budget": {
+            "maxNodes": 32,
+            "maxEdges": 64,
+            "maxDepth": 8,
+            "maxSteps": 400,
+            "timeoutMs": 1000
+          },
+          "allowedFields": [
+            "workVersion",
+            "territory",
+            "sublicense",
+            "trainingUse"
+          ],
+          "rules": [
+            {
+              "id": "issuer",
+              "predicate": "issuerAllowlist",
+              "params": {
+                "issuers": [
+                  "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+                ]
+              }
+            },
+            {
+              "id": "status",
+              "predicate": "statusNotIn",
+              "params": {
+                "forbidden": [
+                  "REVOKED",
+                  "SUSPENDED",
+                  "EXPIRED"
+                ]
+              }
+            },
+            {
+              "id": "fresh",
+              "predicate": "evidenceFresh",
+              "params": {
+                "maxAgeSeconds": 86400
+              }
+            },
+            {
+              "id": "audience",
+              "predicate": "audienceEquals",
+              "params": {
+                "audience": "rwaix:licensee"
+              }
+            },
+            {
+              "id": "action",
+              "predicate": "actionAllowlist",
+              "params": {
+                "actions": [
+                  "content.use"
+                ]
+              }
+            },
+            {
+              "id": "scope",
+              "predicate": "domainScopeMatch",
+              "params": {
+                "fields": [
+                  "workVersion",
+                  "territory",
+                  "sublicense"
+                ]
+              }
+            },
+            {
+              "id": "acyclic",
+              "predicate": "graphAcyclic",
+              "params": {}
+            },
+            {
+              "id": "budget",
+              "predicate": "graphWithinBudget",
+              "params": {}
+            },
+            {
+              "id": "purpose",
+              "predicate": "purposeEquals",
+              "params": {
+                "purpose": "content.license.verify"
+              }
+            },
+            {
+              "id": "deadline",
+              "predicate": "deadlineNotPassed",
+              "params": {}
+            }
+          ]
+        },
+        "graph": {
+          "schemaId": "rwaix.evidence.graph.v1",
+          "graphId": "g-bad",
+          "nodes": [
+            {
+              "nodeId": "cred",
+              "nodeType": "CREDENTIAL",
+              "sourceId": "issuer",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "issuer": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "capturedAt": "2026-10-11T00:00:00Z"
+            },
+            {
+              "nodeId": "obs",
+              "nodeType": "OBSERVATION",
+              "sourceId": "src",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "capturedAt": "2026-10-11T00:00:00Z",
+              "payload": {
+                "workVersion": "work-v3",
+                "territory": "CN",
+                "sublicense": "yes"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "edgeId": "e1",
+              "edgeType": "BASED_ON",
+              "from": "obs",
+              "to": "cred"
+            }
+          ]
+        },
+        "statusSnapshot": {
+          "schemaId": "rwaix.status.snapshot.v1",
+          "snapshotId": "snap",
+          "asOf": "2026-10-11T00:00:00Z",
+          "entries": [
+            {
+              "subjectRef": "license",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terms": {
+          "workVersion": "work-v3",
+          "territory": "CN",
+          "sublicense": "no"
+        },
+        "evaluationTime": "2026-10-11T00:00:00Z",
+        "startedAtMs": 0,
+        "nowMs": 1
+      },
+      "expect": {
+        "decision": "DENY",
+        "reasonCodes": [
+          "DOMAIN_POLICY_SCOPE_MISMATCH"
+        ],
+        "predicateResults": [
+          {
+            "ruleId": "issuer",
+            "predicate": "issuerAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "status",
+            "predicate": "statusNotIn",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "fresh",
+            "predicate": "evidenceFresh",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "audience",
+            "predicate": "audienceEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "action",
+            "predicate": "actionAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "scope",
+            "predicate": "domainScopeMatch",
+            "outcome": "deny",
+            "reasonCode": "DOMAIN_POLICY_SCOPE_MISMATCH"
+          },
+          {
+            "ruleId": "acyclic",
+            "predicate": "graphAcyclic",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "budget",
+            "predicate": "graphWithinBudget",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "purpose",
+            "predicate": "purposeEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "deadline",
+            "predicate": "deadlineNotPassed",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "id": "empty",
+      "input": {
+        "context": {
+          "schemaId": "rwaix.context.v1",
+          "audience": "rwaix:licensee",
+          "purpose": "content.license.verify",
+          "objectRef": {
+            "objectId": "license",
+            "bindingVersion": "1"
+          },
+          "requestedAction": "content.use",
+          "domain": "content",
+          "subjectRef": "license",
+          "challengeNonce": "nonce-0001",
+          "deadline": "2026-12-01T00:00:00Z",
+          "policyVersion": "1.0.0"
+        },
+        "policy": {
+          "schemaId": "rwaix.policy.v1",
+          "policyId": "content.license",
+          "version": "1.0.0",
+          "unknownField": "REJECT",
+          "budget": {
+            "maxNodes": 32,
+            "maxEdges": 64,
+            "maxDepth": 8,
+            "maxSteps": 400,
+            "timeoutMs": 1000
+          },
+          "allowedFields": [
+            "workVersion",
+            "territory",
+            "sublicense",
+            "trainingUse"
+          ],
+          "rules": [
+            {
+              "id": "issuer",
+              "predicate": "issuerAllowlist",
+              "params": {
+                "issuers": [
+                  "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+                ]
+              }
+            },
+            {
+              "id": "status",
+              "predicate": "statusNotIn",
+              "params": {
+                "forbidden": [
+                  "REVOKED",
+                  "SUSPENDED",
+                  "EXPIRED"
+                ]
+              }
+            },
+            {
+              "id": "fresh",
+              "predicate": "evidenceFresh",
+              "params": {
+                "maxAgeSeconds": 86400
+              }
+            },
+            {
+              "id": "audience",
+              "predicate": "audienceEquals",
+              "params": {
+                "audience": "rwaix:licensee"
+              }
+            },
+            {
+              "id": "action",
+              "predicate": "actionAllowlist",
+              "params": {
+                "actions": [
+                  "content.use"
+                ]
+              }
+            },
+            {
+              "id": "scope",
+              "predicate": "domainScopeMatch",
+              "params": {
+                "fields": [
+                  "workVersion",
+                  "territory",
+                  "sublicense"
+                ]
+              }
+            },
+            {
+              "id": "acyclic",
+              "predicate": "graphAcyclic",
+              "params": {}
+            },
+            {
+              "id": "budget",
+              "predicate": "graphWithinBudget",
+              "params": {}
+            },
+            {
+              "id": "purpose",
+              "predicate": "purposeEquals",
+              "params": {
+                "purpose": "content.license.verify"
+              }
+            },
+            {
+              "id": "deadline",
+              "predicate": "deadlineNotPassed",
+              "params": {}
+            }
+          ]
+        },
+        "graph": {
+          "schemaId": "rwaix.evidence.graph.v1",
+          "graphId": "g-empty",
+          "nodes": [],
+          "edges": []
+        },
+        "statusSnapshot": {
+          "schemaId": "rwaix.status.snapshot.v1",
+          "snapshotId": "snap",
+          "asOf": "2026-10-11T00:00:00Z",
+          "entries": [
+            {
+              "subjectRef": "license",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terms": {
+          "workVersion": "work-v3",
+          "territory": "CN",
+          "sublicense": "no"
+        },
+        "evaluationTime": "2026-10-11T00:00:00Z",
+        "startedAtMs": 0,
+        "nowMs": 1
+      },
+      "expect": {
+        "decision": "INDETERMINATE",
+        "reasonCodes": [
+          "MISSING_AUTHORITY",
+          "EVIDENCE_UNAVAILABLE",
+          "MISSING_REQUIRED_FIELD"
+        ],
+        "predicateResults": [
+          {
+            "ruleId": "issuer",
+            "predicate": "issuerAllowlist",
+            "outcome": "indeterminate",
+            "reasonCode": "MISSING_AUTHORITY"
+          },
+          {
+            "ruleId": "status",
+            "predicate": "statusNotIn",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "fresh",
+            "predicate": "evidenceFresh",
+            "outcome": "indeterminate",
+            "reasonCode": "EVIDENCE_UNAVAILABLE"
+          },
+          {
+            "ruleId": "audience",
+            "predicate": "audienceEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "action",
+            "predicate": "actionAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "scope",
+            "predicate": "domainScopeMatch",
+            "outcome": "indeterminate",
+            "reasonCode": "MISSING_REQUIRED_FIELD"
+          },
+          {
+            "ruleId": "acyclic",
+            "predicate": "graphAcyclic",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "budget",
+            "predicate": "graphWithinBudget",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "purpose",
+            "predicate": "purposeEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "deadline",
+            "predicate": "deadlineNotPassed",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nft-allow",
+      "input": {
+        "context": {
+          "schemaId": "rwaix.context.v1",
+          "audience": "rwaix:nft-buyer",
+          "purpose": "nft.trade.verify",
+          "objectRef": {
+            "objectId": "nft-work",
+            "bindingVersion": "1"
+          },
+          "requestedAction": "nft.accept",
+          "domain": "nft",
+          "subjectRef": "license",
+          "challengeNonce": "nonce-0001",
+          "deadline": "2026-12-01T00:00:00Z",
+          "policyVersion": "1.0.0"
+        },
+        "policy": {
+          "schemaId": "rwaix.policy.v1",
+          "policyId": "nft.trade",
+          "version": "1.0.0",
+          "unknownField": "REJECT",
+          "budget": {
+            "maxNodes": 32,
+            "maxEdges": 64,
+            "maxDepth": 8,
+            "maxSteps": 400,
+            "timeoutMs": 1000
+          },
+          "allowedFields": [
+            "network",
+            "contract",
+            "tokenId",
+            "workDigest",
+            "licenceVersion",
+            "licenceScope",
+            "sellerControl",
+            "recipient",
+            "copyrightTransfer"
+          ],
+          "rules": [
+            {
+              "id": "issuer",
+              "predicate": "issuerAllowlist",
+              "params": {
+                "issuers": [
+                  "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+                ]
+              }
+            },
+            {
+              "id": "status",
+              "predicate": "statusNotIn",
+              "params": {
+                "forbidden": [
+                  "REVOKED",
+                  "SUSPENDED",
+                  "EXPIRED"
+                ]
+              }
+            },
+            {
+              "id": "fresh",
+              "predicate": "evidenceFresh",
+              "params": {
+                "maxAgeSeconds": 86400
+              }
+            },
+            {
+              "id": "audience",
+              "predicate": "audienceEquals",
+              "params": {
+                "audience": "rwaix:nft-buyer"
+              }
+            },
+            {
+              "id": "action",
+              "predicate": "actionAllowlist",
+              "params": {
+                "actions": [
+                  "nft.accept"
+                ]
+              }
+            },
+            {
+              "id": "scope",
+              "predicate": "domainScopeMatch",
+              "params": {
+                "fields": [
+                  "network",
+                  "contract",
+                  "tokenId",
+                  "workDigest",
+                  "licenceVersion",
+                  "licenceScope",
+                  "sellerControl",
+                  "recipient",
+                  "copyrightTransfer"
+                ]
+              }
+            },
+            {
+              "id": "acyclic",
+              "predicate": "graphAcyclic",
+              "params": {}
+            },
+            {
+              "id": "budget",
+              "predicate": "graphWithinBudget",
+              "params": {}
+            },
+            {
+              "id": "purpose",
+              "predicate": "purposeEquals",
+              "params": {
+                "purpose": "nft.trade.verify"
+              }
+            },
+            {
+              "id": "deadline",
+              "predicate": "deadlineNotPassed",
+              "params": {}
+            }
+          ]
+        },
+        "graph": {
+          "schemaId": "rwaix.evidence.graph.v1",
+          "graphId": "g-nft",
+          "nodes": [
+            {
+              "nodeId": "cred",
+              "nodeType": "CREDENTIAL",
+              "sourceId": "issuer",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "issuer": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "capturedAt": "2026-10-11T00:00:00Z"
+            },
+            {
+              "nodeId": "obs",
+              "nodeType": "OBSERVATION",
+              "sourceId": "src",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "capturedAt": "2026-10-11T00:00:00Z",
+              "payload": {
+                "network": "31337",
+                "contract": "0x00000000000000000000000000000000000000aa",
+                "tokenId": "1",
+                "workDigest": "sha256:fa70ff815a1935e2166148408ea903b1a8b870f61eaadf26bde0dccce0905dea",
+                "licenceVersion": "licence-v1",
+                "licenceScope": "display-private",
+                "sellerControl": "seller-holds",
+                "recipient": "buyer-wallet",
+                "copyrightTransfer": "false"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "edgeId": "e1",
+              "edgeType": "BASED_ON",
+              "from": "obs",
+              "to": "cred"
+            }
+          ]
+        },
+        "statusSnapshot": {
+          "schemaId": "rwaix.status.snapshot.v1",
+          "snapshotId": "snap",
+          "asOf": "2026-10-11T00:00:00Z",
+          "entries": [
+            {
+              "subjectRef": "license",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terms": {
+          "network": "31337",
+          "contract": "0x00000000000000000000000000000000000000aa",
+          "tokenId": "1",
+          "workDigest": "sha256:fa70ff815a1935e2166148408ea903b1a8b870f61eaadf26bde0dccce0905dea",
+          "licenceVersion": "licence-v1",
+          "licenceScope": "display-private",
+          "sellerControl": "seller-holds",
+          "recipient": "buyer-wallet",
+          "copyrightTransfer": "false"
+        },
+        "evaluationTime": "2026-10-11T00:00:00Z",
+        "startedAtMs": 0,
+        "nowMs": 1
+      },
+      "expect": {
+        "decision": "ALLOW",
+        "reasonCodes": [
+          "OK"
+        ],
+        "predicateResults": [
+          {
+            "ruleId": "issuer",
+            "predicate": "issuerAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "status",
+            "predicate": "statusNotIn",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "fresh",
+            "predicate": "evidenceFresh",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "audience",
+            "predicate": "audienceEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "action",
+            "predicate": "actionAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "scope",
+            "predicate": "domainScopeMatch",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "acyclic",
+            "predicate": "graphAcyclic",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "budget",
+            "predicate": "graphWithinBudget",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "purpose",
+            "predicate": "purposeEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "deadline",
+            "predicate": "deadlineNotPassed",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nft-copyright",
+      "input": {
+        "context": {
+          "schemaId": "rwaix.context.v1",
+          "audience": "rwaix:nft-buyer",
+          "purpose": "nft.trade.verify",
+          "objectRef": {
+            "objectId": "nft-work",
+            "bindingVersion": "1"
+          },
+          "requestedAction": "nft.accept",
+          "domain": "nft",
+          "subjectRef": "license",
+          "challengeNonce": "nonce-0001",
+          "deadline": "2026-12-01T00:00:00Z",
+          "policyVersion": "1.0.0"
+        },
+        "policy": {
+          "schemaId": "rwaix.policy.v1",
+          "policyId": "nft.trade",
+          "version": "1.0.0",
+          "unknownField": "REJECT",
+          "budget": {
+            "maxNodes": 32,
+            "maxEdges": 64,
+            "maxDepth": 8,
+            "maxSteps": 400,
+            "timeoutMs": 1000
+          },
+          "allowedFields": [
+            "network",
+            "contract",
+            "tokenId",
+            "workDigest",
+            "licenceVersion",
+            "licenceScope",
+            "sellerControl",
+            "recipient",
+            "copyrightTransfer"
+          ],
+          "rules": [
+            {
+              "id": "issuer",
+              "predicate": "issuerAllowlist",
+              "params": {
+                "issuers": [
+                  "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+                ]
+              }
+            },
+            {
+              "id": "status",
+              "predicate": "statusNotIn",
+              "params": {
+                "forbidden": [
+                  "REVOKED",
+                  "SUSPENDED",
+                  "EXPIRED"
+                ]
+              }
+            },
+            {
+              "id": "fresh",
+              "predicate": "evidenceFresh",
+              "params": {
+                "maxAgeSeconds": 86400
+              }
+            },
+            {
+              "id": "audience",
+              "predicate": "audienceEquals",
+              "params": {
+                "audience": "rwaix:nft-buyer"
+              }
+            },
+            {
+              "id": "action",
+              "predicate": "actionAllowlist",
+              "params": {
+                "actions": [
+                  "nft.accept"
+                ]
+              }
+            },
+            {
+              "id": "scope",
+              "predicate": "domainScopeMatch",
+              "params": {
+                "fields": [
+                  "network",
+                  "contract",
+                  "tokenId",
+                  "workDigest",
+                  "licenceVersion",
+                  "licenceScope",
+                  "sellerControl",
+                  "recipient",
+                  "copyrightTransfer"
+                ]
+              }
+            },
+            {
+              "id": "acyclic",
+              "predicate": "graphAcyclic",
+              "params": {}
+            },
+            {
+              "id": "budget",
+              "predicate": "graphWithinBudget",
+              "params": {}
+            },
+            {
+              "id": "purpose",
+              "predicate": "purposeEquals",
+              "params": {
+                "purpose": "nft.trade.verify"
+              }
+            },
+            {
+              "id": "deadline",
+              "predicate": "deadlineNotPassed",
+              "params": {}
+            }
+          ]
+        },
+        "graph": {
+          "schemaId": "rwaix.evidence.graph.v1",
+          "graphId": "g-nft-copyright",
+          "nodes": [
+            {
+              "nodeId": "cred",
+              "nodeType": "CREDENTIAL",
+              "sourceId": "issuer",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "issuer": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "capturedAt": "2026-10-11T00:00:00Z"
+            },
+            {
+              "nodeId": "obs",
+              "nodeType": "OBSERVATION",
+              "sourceId": "src",
+              "controllerId": "p256:028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7",
+              "contentDigest": "sha256:afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91",
+              "capturedAt": "2026-10-11T00:00:00Z",
+              "payload": {
+                "network": "31337",
+                "contract": "0x00000000000000000000000000000000000000aa",
+                "tokenId": "1",
+                "workDigest": "sha256:fa70ff815a1935e2166148408ea903b1a8b870f61eaadf26bde0dccce0905dea",
+                "licenceVersion": "licence-v1",
+                "licenceScope": "display-private",
+                "sellerControl": "seller-holds",
+                "recipient": "buyer-wallet",
+                "copyrightTransfer": "true"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "edgeId": "e1",
+              "edgeType": "BASED_ON",
+              "from": "obs",
+              "to": "cred"
+            }
+          ]
+        },
+        "statusSnapshot": {
+          "schemaId": "rwaix.status.snapshot.v1",
+          "snapshotId": "snap",
+          "asOf": "2026-10-11T00:00:00Z",
+          "entries": [
+            {
+              "subjectRef": "license",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terms": {
+          "network": "31337",
+          "contract": "0x00000000000000000000000000000000000000aa",
+          "tokenId": "1",
+          "workDigest": "sha256:fa70ff815a1935e2166148408ea903b1a8b870f61eaadf26bde0dccce0905dea",
+          "licenceVersion": "licence-v1",
+          "licenceScope": "display-private",
+          "sellerControl": "seller-holds",
+          "recipient": "buyer-wallet",
+          "copyrightTransfer": "false"
+        },
+        "evaluationTime": "2026-10-11T00:00:00Z",
+        "startedAtMs": 0,
+        "nowMs": 1
+      },
+      "expect": {
+        "decision": "DENY",
+        "reasonCodes": [
+          "DOMAIN_POLICY_SCOPE_MISMATCH"
+        ],
+        "predicateResults": [
+          {
+            "ruleId": "issuer",
+            "predicate": "issuerAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "status",
+            "predicate": "statusNotIn",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "fresh",
+            "predicate": "evidenceFresh",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "audience",
+            "predicate": "audienceEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "action",
+            "predicate": "actionAllowlist",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "scope",
+            "predicate": "domainScopeMatch",
+            "outcome": "deny",
+            "reasonCode": "DOMAIN_POLICY_SCOPE_MISMATCH"
+          },
+          {
+            "ruleId": "acyclic",
+            "predicate": "graphAcyclic",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "budget",
+            "predicate": "graphWithinBudget",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "purpose",
+            "predicate": "purposeEquals",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          },
+          {
+            "ruleId": "deadline",
+            "predicate": "deadlineNotPassed",
+            "outcome": "pass",
+            "reasonCode": "OK"
+          }
+        ]
+      }
+    }
+  ],
+  "sdJwt": {
+    "disclosure": "WyJzYWx0LXNob3duLTAwMDAwMDAxIiwic2hvd24iLCJ5ZXMiXQ",
+    "digest": "tOBHdGABnE458lEmdn8lnS-af_7BR7GCYgTeen_iDI4",
+    "issuerJws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InAyNTY6MDI4ZTk5ZGQ2Mjk1OTg4ODY0OTJjZWQ3NTEzZWQ2MjE0NTVmYjNkYmIwMjNjMjIxNWQwYjgzN2I0YzM1MTg0MWM3IiwidHlwIjoiSldTIn0.eyJfc2QiOlsibTB1M1IwZUpGOFV1YTZDcV9SbGdtOWhYZG5pZTJCU01XZVEzYkFQZjBUOCIsInRPQkhkR0FCbkU0NThsRW1kbjhsblMtYWZfN0JSN0dDWWdUZWVuX2lESTQiXSwiX3NkX2FsZyI6InNoYS0yNTYiLCJpc3MiOiJwMjU2OjAyOGU5OWRkNjI5NTk4ODg2NDkyY2VkNzUxM2VkNjIxNDU1ZmIzZGJiMDIzYzIyMTVkMGI4MzdiNGMzNTE4NDFjNyIsInNjaGVtYUlkIjoicndhaXguc2Qtand0LnYxIn0.6RKWGpyzElbSB3gPWlfBCmjEc8qFOBXBaSMOCJJuXgdDiKHubS1ieV1g4bxXyZ8j3v9LIouiCd_xroVXyM-vNA",
+    "publicKeyHex": "028e99dd629598886492ced7513ed621455fb3dbb023c2215d0b837b4c351841c7"
+  },
+  "status": {
+    "gzipHex": "1f8b0800000000000003edce310d00000803b0e1df341a7691905641130000000000000000000000be99eb0000000000b5055075be6000400000",
+    "index": 94567,
+    "bit": 1
+  }
+}

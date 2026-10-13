@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trust-context.schema.json",
+  "title": "TrustContext",
+  "description": "One verification episode: audience, purpose, object, action, domain, challenge, deadline, and policy version. Optional token fields are omitted when they do not apply.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "protocolVersion",
+    "audience",
+    "purpose",
+    "objectRef",
+    "requestedAction",
+    "domain",
+    "challengeNonce",
+    "deadline",
+    "policyVersion"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.context.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "audience": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "purpose": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "objectRef": { "$ref": "https://rwaix.example/schemas/v1/object-ref.schema.json" },
+    "requestedAction": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "domain": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "challengeNonce": { "type": "string", "minLength": 8, "maxLength": 128 },
+    "deadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "policyVersion": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "tokenRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "seriesId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "rightsDocumentDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "quoteId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "rewardClaimId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" }
+  }
+}

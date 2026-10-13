@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/policy-decision.schema.json",
+  "title": "PolicyDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "decisionId",
+    "ruleSetDigest",
+    "engineVersion",
+    "engineBuildDigest",
+    "inputSnapshotDigest",
+    "dependencyGraphDigest",
+    "predicateResults",
+    "decision",
+    "reasonCodes",
+    "evaluationTime"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.decision.v1" },
+    "decisionId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "ruleSetDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "engineVersion": { "const": "rwaix-policy-0.1.0" },
+    "engineBuildDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "inputSnapshotDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "dependencyGraphDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "predicateResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ruleId", "predicate", "outcome", "reasonCode"],
+        "properties": {
+          "ruleId": { "type": "string" },
+          "predicate": { "type": "string" },
+          "outcome": { "enum": ["pass", "deny", "indeterminate"] },
+          "reasonCode": { "type": "string" }
+        }
+      }
+    },
+    "decision": { "enum": ["ALLOW", "DENY", "INDETERMINATE"] },
+    "reasonCodes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "evaluationTime": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" }
+  }
+}

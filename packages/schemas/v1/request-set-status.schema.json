@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-set-status.schema.json",
+  "title": "setStatus request",
+  "description": "Current credential or subject status used at execution time. REVOKED and EXPIRED do not transition back to ACTIVE. This is not a W3C Bitstring Status List.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "subjectRef", "status"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.setStatus.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "status": { "enum": ["ACTIVE", "SUSPENDED", "REVOKED", "EXPIRED"] }
+  }
+}

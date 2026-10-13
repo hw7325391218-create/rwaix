@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-check-status.schema.json",
+  "title": "checkStatus request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "atTime"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.checkStatus.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "atTime": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "snapshot": { "$ref": "https://rwaix.example/schemas/v1/status-snapshot.schema.json" },
+    "statusList": { "type": "object" },
+    "statusProof": { "type": "string", "minLength": 1 },
+    "statusIndex": { "type": "string", "pattern": "^[0-9]+$" },
+    "statusPurpose": { "enum": ["revocation", "suspension"] },
+    "trustedIssuers": { "type": "array", "items": { "type": "string" } }
+  }
+}

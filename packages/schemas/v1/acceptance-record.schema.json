@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/acceptance-record.schema.json",
+  "title": "AcceptanceRecord",
+  "description": "N05. portionId binds a partial acceptance. Repeating the same portion must not increase quantity or payables.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "acceptanceId",
+    "tradeId",
+    "obligationId",
+    "portionId",
+    "objectVersion",
+    "quantity",
+    "unit",
+    "acceptor",
+    "authorityRef",
+    "acceptedAt"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.acceptance.v1" },
+    "acceptanceId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "tradeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "portionId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "objectVersion": { "type": "string", "pattern": "^[0-9]+$" },
+    "quantity": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "unit": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "qualityMetrics": { "type": "object", "additionalProperties": { "type": "string" } },
+    "acceptor": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+    "authorityRef": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "acceptedAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" }
+  }
+}

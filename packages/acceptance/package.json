@@ -1,0 +1,23 @@
+{
+  "name": "@rwaix/acceptance",
+  "version": "0.5.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/run.ts"
+  },
+  "dependencies": {
+    "@rwaix/adapter-compute": "workspace:*",
+    "@rwaix/adapter-profiles": "workspace:*",
+    "@rwaix/agent": "workspace:*",
+    "@rwaix/conformance": "workspace:*",
+    "@rwaix/economics": "workspace:*",
+    "@rwaix/policy-engine": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/scenarios": "workspace:*",
+    "@rwaix/sdk": "workspace:*",
+    "@rwaix/server": "workspace:*",
+    "puppeteer-core": "25.13.0"
+  }
+}

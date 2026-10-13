@@ -1,0 +1,9 @@
+.git
+node_modules
+data
+contracts/out
+contracts/cache
+contracts/broadcast
+contracts/lib
+**/*.log
+.DS_Store

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/bond-record.schema.json",
+  "title": "BondRecord",
+  "description": "Performance bond. Locking a bond does not prove facts and does not guarantee facility debt. Slash and release are different authorities.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "bondId",
+    "subject",
+    "responsibility",
+    "assetId",
+    "lockedAmount",
+    "disputeWindowSeconds",
+    "releaseAuthority",
+    "slashAuthority",
+    "state"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.bond.v1" },
+    "bondId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "subject": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "responsibility": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "lockedAmount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+    "disputeWindowSeconds": { "type": "string", "pattern": "^[0-9]+$" },
+    "releaseAuthority": { "const": "BOND_RELEASE" },
+    "slashAuthority": { "const": "SLASHER" },
+    "state": { "enum": ["PROPOSED", "LOCKED", "DISPUTED", "RELEASED", "SLASHED"] }
+  }
+}

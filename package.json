@@ -1,0 +1,38 @@
+{
+  "name": "rwaix-reference",
+  "private": true,
+  "version": "0.5.1",
+  "license": "Apache-2.0",
+  "description": "Paper/test reference for the RWAIX trust and transaction proposal (whitepaper 2026-10-12). Not a standard, not production, not certified. Mainnet deploy is opt-in and does not mint.",
+  "packageManager": "pnpm@10.33.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test --test-concurrency=1 --test-force-exit packages/*/test/*.test.ts",
+    "start": "tsx packages/server/src/main.ts",
+    "conformance": "tsx packages/conformance/src/run.ts",
+    "acceptance": "tsx packages/acceptance/src/run.ts",
+    "demo": "tsx scripts/demo-flow.ts",
+    "vectors": "tsx scripts/export-vectors.ts",
+    "test:python": "python3 verifiers/python/test_verifier.py",
+    "freeze": "tsx scripts/freeze-schemas.ts",
+    "test:contracts": "forge test --root contracts"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "devDependencies": {
+    "@rwaix/adapter-compute": "workspace:*",
+    "@rwaix/adapter-profiles": "workspace:*",
+    "@rwaix/disclosure": "workspace:*",
+    "@rwaix/policy-engine": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/sdk": "workspace:*",
+    "@rwaix/status-list": "workspace:*",
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

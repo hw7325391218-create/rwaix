@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-trade.schema.json",
+  "title": "Trade profile request",
+  "description": "Reference helper beside the nine kernel interfaces. Carries one trade document plus an idempotency key. recordedAt is assigned by the service and must not be sent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "op"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.trade.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "op": {
+      "enum": ["OPEN", "EVENT", "ACCEPT", "DISPUTE", "AUTHORIZE", "RECONCILE", "APPLY", "SWEEP"]
+    },
+    "envelope": { "$ref": "https://rwaix.example/schemas/v1/trade-envelope.schema.json" },
+    "event": { "$ref": "https://rwaix.example/schemas/v1/trade-event.schema.json" },
+    "acceptance": { "$ref": "https://rwaix.example/schemas/v1/acceptance-record.schema.json" },
+    "dispute": { "$ref": "https://rwaix.example/schemas/v1/dispute-record.schema.json" },
+    "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "paymentAttemptId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" }
+  }
+}

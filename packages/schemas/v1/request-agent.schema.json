@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-agent.schema.json",
+  "title": "agent request",
+  "description": "Open, narrow, or freeze a constrained agent grant. Child grants cannot widen tools, payees, assets, expiry, or amount.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "op"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.agent.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "op": { "enum": ["OPEN", "DELEGATE", "FREEZE"] },
+    "parentId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "grantId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "grant": { "type": "object" }
+  }
+}

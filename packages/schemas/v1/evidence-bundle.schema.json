@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/evidence-bundle.schema.json",
+  "title": "EvidenceBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "bundleId", "observationRef", "source", "captureTime", "integrityProof", "availabilityPolicy", "kind"],
+  "properties": {
+    "schemaId": { "const": "rwaix.evidence.bundle.v1" },
+    "bundleId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "observationRef": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "minLength": 1 },
+    "captureTime": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "integrityProof": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "availabilityPolicy": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["OBSERVATION", "ISSUER_CLAIM", "THIRD_PARTY_OPINION", "ALGORITHM_INFERENCE"] },
+    "credentialRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" }
+  }
+}

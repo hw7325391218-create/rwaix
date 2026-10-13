@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trust-policy.schema.json",
+  "title": "TrustPolicy",
+  "description": "Closed predicate set. The engine does not execute arbitrary code. policyDigest is the SHA-256 of the canonical policy document and is pinned into TrustReceipt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "policyId", "version", "unknownField", "budget", "allowedFields", "rules"],
+  "properties": {
+    "schemaId": { "const": "rwaix.policy.v1" },
+    "policyId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "version": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "unknownField": { "enum": ["REJECT", "IGNORE_BEHAVIOR_KEEP_SIGNED"] },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxNodes", "maxEdges", "maxDepth", "maxSteps", "timeoutMs"],
+      "properties": {
+        "maxNodes": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "maxEdges": { "type": "integer", "minimum": 0, "maximum": 512 },
+        "maxDepth": { "type": "integer", "minimum": 1, "maximum": 32 },
+        "maxSteps": { "type": "integer", "minimum": 1, "maximum": 5000 },
+        "timeoutMs": { "type": "integer", "minimum": 1, "maximum": 60000 }
+      }
+    },
+    "allowedFields": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "predicate", "params"],
+        "properties": {
+          "id": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "predicate": {
+            "enum": [
+              "issuerAllowlist",
+              "statusNotIn",
+              "evidenceFresh",
+              "fieldEquals",
+              "graphAcyclic",
+              "graphWithinBudget",
+              "purposeEquals",
+              "audienceEquals",
+              "actionAllowlist",
+              "requiredPresent",
+              "deadlineNotPassed",
+              "domainScopeMatch"
+            ]
+          },
+          "params": { "type": "object" }
+        }
+      }
+    }
+  }
+}

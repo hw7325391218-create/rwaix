@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-evaluate-policy.schema.json",
+  "title": "evaluatePolicy request",
+  "description": "evaluationTime, startedAtMs, and nowMs are explicit inputs. The policy engine does not read a clock, a random source, or a model.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "context", "policy", "graph", "statusSnapshot", "terms", "evaluationTime", "startedAtMs", "nowMs"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.evaluatePolicy.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "context": { "$ref": "https://rwaix.example/schemas/v1/trust-context.schema.json" },
+    "policy": { "$ref": "https://rwaix.example/schemas/v1/trust-policy.schema.json" },
+    "graph": { "$ref": "https://rwaix.example/schemas/v1/evidence-graph.schema.json" },
+    "statusSnapshot": { "$ref": "https://rwaix.example/schemas/v1/status-snapshot.schema.json" },
+    "terms": { "type": "object", "additionalProperties": { "type": "string" } },
+    "evaluationTime": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "startedAtMs": { "type": "integer", "minimum": 0 },
+    "nowMs": { "type": "integer", "minimum": 0 }
+  }
+}

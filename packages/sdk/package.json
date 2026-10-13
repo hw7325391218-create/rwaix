@@ -1,0 +1,21 @@
+{
+  "name": "@rwaix/sdk",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "devDependencies": {
+    "@rwaix/adapter-compute": "workspace:*"
+  },
+  "dependencies": {
+    "@rwaix/adapter-sdk": "workspace:*",
+    "@rwaix/agent": "workspace:*",
+    "@rwaix/disclosure": "workspace:*",
+    "@rwaix/economics": "workspace:*",
+    "@rwaix/policy-engine": "workspace:*",
+    "@rwaix/protocol": "workspace:*",
+    "@rwaix/status-list": "workspace:*",
+    "@rwaix/verifier": "workspace:*"
+  }
+}

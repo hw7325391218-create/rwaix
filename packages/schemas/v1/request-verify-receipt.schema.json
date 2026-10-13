@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/request-verify-receipt.schema.json",
+  "title": "verifyReceipt request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "protocolVersion", "idempotencyKey", "receipt", "receiptProof"],
+  "properties": {
+    "schemaId": { "const": "rwaix.request.verifyReceipt.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "idempotencyKey": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "receipt": { "$ref": "https://rwaix.example/schemas/v1/trust-receipt.schema.json" },
+    "receiptProof": { "type": "string", "minLength": 1 },
+    "expectedPolicyDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "replay": { "$ref": "https://rwaix.example/schemas/v1/request-evaluate-policy.schema.json" },
+    "selectiveDisclosure": { "type": "string", "minLength": 1 },
+    "zkProof": { "type": "object" }
+  }
+}

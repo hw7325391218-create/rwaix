@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/token-registry.schema.json",
+  "title": "TokenRegistryEntry",
+  "description": "Identifies a fee or test asset by chain, contract, and decimals. A same-named token on another contract is a different asset. Testnet placeholder only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "assetId", "kind", "chainId", "contractAddress", "decimals", "symbol", "version", "testOnly"],
+  "properties": {
+    "schemaId": { "const": "rwaix.token.registry.v1" },
+    "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "kind": { "enum": ["NETWORK_FEE", "SERVICE_SETTLEMENT", "BOND", "REWARD", "FIAT_TEST"] },
+    "chainId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/chainId" },
+    "contractAddress": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/address" },
+    "decimals": { "type": "integer", "minimum": 0, "maximum": 36 },
+    "symbol": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "version": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "testOnly": { "const": true }
+  }
+}

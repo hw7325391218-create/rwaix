@@ -1,0 +1,84 @@
+# Paper/test stack. Host ports are published on 127.0.0.1 only.
+# Inside a container the API listens on 0.0.0.0 so the published port can reach it.
+# Chain ids are 31337 and 31338. Do not point these RPC URLs at a public network.
+#
+# POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, and DID_AUTHORITY come from
+# the shell or a .env file in the working directory. Defaults keep the local
+# stack on rwaix/rwaix and did:web:127.0.0.1%3A8787.
+# The password is interpolated into DATABASE_URL. Use a URL-safe value
+# (no @, :, /, or spaces) or percent-encode it in both places.
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rwaix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rwaix}
+      POSTGRES_DB: ${POSTGRES_DB:-rwaix}
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rwaix} -d ${POSTGRES_DB:-rwaix}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  anvil-a:
+    image: ghcr.io/foundry-rs/foundry:stable
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8545:8545"
+    # Image entrypoint is `sh -c`, which runs only its first argument.
+    # Compose shell-splits a plain string, so this must stay a one-item list.
+    # A split argv drops `--host 0.0.0.0` and Anvil stays on 127.0.0.1.
+    command: ["anvil --host 0.0.0.0 --port 8545 --chain-id 31337"]
+
+  anvil-b:
+    image: ghcr.io/foundry-rs/foundry:stable
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8546:8545"
+    command: ["anvil --host 0.0.0.0 --port 8545 --chain-id 31338"]
+
+  deploy:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.foundry
+    depends_on:
+      - anvil-a
+      - anvil-b
+    environment:
+      PRIVATE_KEY: ${ANVIL_PRIVATE_KEY:-0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80}
+    restart: "no"
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      deploy:
+        condition: service_completed_successfully
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: "8787"
+      DATABASE_URL: postgres://${POSTGRES_USER:-rwaix}:${POSTGRES_PASSWORD:-rwaix}@postgres:5432/${POSTGRES_DB:-rwaix}
+      DID_AUTHORITY: ${DID_AUTHORITY:-127.0.0.1:8787}
+      CHAIN_A_RPC: http://anvil-a:8545
+      CHAIN_A_ID: "31337"
+      CHAIN_B_RPC: http://anvil-b:8545
+      PAPER_TEST_ONLY: "1"
+    ports:
+      - "127.0.0.1:8787:8787"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  pgdata:

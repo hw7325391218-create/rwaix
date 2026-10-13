@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/status-snapshot.schema.json",
+  "title": "StatusSnapshot",
+  "description": "Point-in-time status input. This reference pack does not implement a full W3C Bitstring Status List; that module is 未评测. Revocation is irreversible for the credential version. Suspension can be cleared by a later snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaId", "snapshotId", "asOf", "entries"],
+  "properties": {
+    "schemaId": { "const": "rwaix.status.snapshot.v1" },
+    "snapshotId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "asOf": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["subjectRef", "status"],
+        "properties": {
+          "subjectRef": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "status": { "enum": ["ACTIVE", "SUSPENDED", "REVOKED", "EXPIRED"] },
+          "validUntil": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" }
+        }
+      }
+    }
+  }
+}

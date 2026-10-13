@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rwaix.example/schemas/v1/trade-envelope.schema.json",
+  "title": "TradeEnvelope",
+  "description": "N01. Fixes protocol, profile, schema digest, trade id, and terms digest. Amounts carry an explicit asset id and decimals. One obligationId survives a change of payment asset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "protocolVersion",
+    "profileId",
+    "profileVersion",
+    "schemaDigest",
+    "tradeId",
+    "termsDigest",
+    "parties",
+    "objects",
+    "obligations",
+    "acceptanceRule",
+    "timeTerms",
+    "paymentTerms",
+    "applicableDocuments",
+    "disputePath"
+  ],
+  "properties": {
+    "schemaId": { "const": "rwaix.trade.envelope.v1" },
+    "protocolVersion": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/protocolVersion" },
+    "profileId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "profileVersion": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "schemaDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "tradeId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+    "termsDigest": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" },
+    "parties": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["partyId", "role", "authorityRef"],
+        "properties": {
+          "partyId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/signerRef" },
+          "role": {
+            "enum": ["CUSTOMER", "PROVIDER", "BENEFICIARY", "PAYER", "PAYEE", "VERIFIER", "ACCEPTOR", "AGENT"]
+          },
+          "authorityRef": { "type": "string", "minLength": 1, "maxLength": 256 }
+        }
+      }
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["objectId", "quantity", "unit"],
+        "properties": {
+          "objectId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "quantity": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+          "unit": { "type": "string", "minLength": 1, "maxLength": 32 }
+        }
+      }
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["obligationId", "kind", "amount", "assetId", "decimals", "rounding"],
+        "properties": {
+          "obligationId": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/id" },
+          "kind": { "enum": ["SERVICE", "NETWORK_FEE", "RIGHTS_DISTRIBUTION", "NONE"] },
+          "amount": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/uint" },
+          "assetId": { "type": "string", "minLength": 1, "maxLength": 64 },
+          "decimals": { "type": "integer", "minimum": 0, "maximum": 36 },
+          "rounding": { "const": "EXACT_INTEGER" }
+        }
+      }
+    },
+    "acceptanceRule": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "timeTerms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effectiveAt"],
+      "properties": {
+        "effectiveAt": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" },
+        "deliveryDeadline": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/timestamp" }
+      }
+    },
+    "paymentTerms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trigger"],
+      "properties": {
+        "trigger": { "enum": ["NONE", "PREPAY", "ACCEPTANCE", "MILESTONE"] }
+      }
+    },
+    "applicableDocuments": {
+      "type": "array",
+      "items": { "$ref": "https://rwaix.example/schemas/v1/defs.schema.json#/$defs/digest" }
+    },
+    "disputePath": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "terms": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Profile fields covered by termsDigest. Adapter policies compare delivery evidence to these fields."
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": { "type": "object" },
+      "description": "Optional registered extensions. Keys must appear in the extension registry. Unregistered keys are rejected. Optional keys are retained in the signed document and ignored by the core."
+    }
+  }
+}

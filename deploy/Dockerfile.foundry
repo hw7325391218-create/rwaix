@@ -1,0 +1,20 @@
+FROM ghcr.io/foundry-rs/foundry:stable
+
+# The image's USER is foundry (uid 1000). COPY still runs as root, so without
+# --chown the tree is root-owned and `forge install` cannot write foundry.lock.
+USER root
+RUN mkdir -p /opt/contracts && chown foundry:foundry /opt/contracts
+
+WORKDIR /opt/contracts
+COPY --chown=foundry:foundry contracts /opt/contracts
+COPY --chown=foundry:foundry deploy/broadcast.sh /opt/broadcast.sh
+
+USER foundry
+# .git is dockerignored, and forge install adds forge-std as a submodule.
+# `--no-commit` was removed; install does not commit unless `--commit` is passed.
+RUN git init \
+  && forge install foundry-rs/forge-std@v1.17.0 \
+  && forge build \
+  && chmod +x /opt/broadcast.sh
+
+ENTRYPOINT ["/bin/sh", "/opt/broadcast.sh"]

@@ -1,0 +1,46 @@
+{
+  "schemaRelease": "1.0.0",
+  "objectLifecycle": {
+    "states": ["DRAFT", "ACTIVE", "SUSPENDED", "REVOKED", "RETIRED"],
+    "terminal": ["REVOKED", "RETIRED"],
+    "edges": [
+      ["DRAFT", "ACTIVE"],
+      ["DRAFT", "RETIRED"],
+      ["ACTIVE", "SUSPENDED"],
+      ["ACTIVE", "REVOKED"],
+      ["ACTIVE", "RETIRED"],
+      ["SUSPENDED", "ACTIVE"],
+      ["SUSPENDED", "REVOKED"],
+      ["SUSPENDED", "RETIRED"]
+    ],
+    "notes": "REVOKED and RETIRED do not return to the same version. A new relationship uses a new object or a new version id that preserves history."
+  },
+  "feeAttempt": {
+    "states": ["RESERVED", "SUBMITTED", "OUTCOME_UNKNOWN", "FAILED_CONFIRMED", "ATTRIBUTED", "DISCHARGED"],
+    "notes": "OUTCOME_UNKNOWN stays inside coverage. FAILED_CONFIRMED releases a reservation only after non-execution is confirmed. Discharge does not delete the execution record."
+  },
+  "bond": {
+    "states": ["PROPOSED", "LOCKED", "DISPUTED", "RELEASED", "SLASHED"],
+    "edges": [
+      ["PROPOSED", "LOCKED"],
+      ["LOCKED", "DISPUTED"],
+      ["LOCKED", "RELEASED"],
+      ["LOCKED", "SLASHED"],
+      ["DISPUTED", "RELEASED"],
+      ["DISPUTED", "SLASHED"]
+    ]
+  },
+  "reward": {
+    "states": ["SUBMITTED", "APPROVED", "CLAIMABLE", "CLAIMED", "REJECTED"],
+    "edges": [
+      ["SUBMITTED", "APPROVED"],
+      ["APPROVED", "CLAIMABLE"],
+      ["CLAIMABLE", "CLAIMED"],
+      ["SUBMITTED", "REJECTED"]
+    ]
+  },
+  "chainInclusion": {
+    "states": ["SUBMITTED", "INCLUDED", "FINAL", "REORGED"],
+    "notes": "Authorization that requires finality must not consume an INCLUDED event. REORGED operations are re-checked."
+  }
+}
